@@ -1,0 +1,27 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django Chat{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            {% if user.is_authenticated %}
+                <li><form method="post" action="{% url 'logout' %}">{% csrf_token %}
+                    <button type="submit">Logout</button></form></li>
+                <li><a href="{% url 'chat' %}">Chat</a></li>
+                <li><span>Welcome, {{ user.username }}!</span></li>
+            {% else %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

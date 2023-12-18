@@ -1,0 +1,24 @@
+<!-- templates/chat/chat.html -->
+{% extends 'chat/base.html' %}
+
+{% block content %}
+    <h1>Chat</h1>
+    {% if user.is_authenticated %}
+        <div>
+            {% for message in messages %}
+                <p>{{ message.sender.username }}: {{ message.content }} - {{ message.timestamp }}</p>
+            {% endfor %}
+        </div>
+        <form method="post" action="{% url 'chat' %}">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Send</button>
+        </form>
+        <form method="post" action="{% url 'clear_messages' %}">
+            {% csrf_token %}
+            <button type="submit">Clear Chat</button>
+        </form>
+    {% else %}
+        <p>Please log in to view and send messages.</p>
+    {% endif %}
+{% endblock %}
